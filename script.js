@@ -14,7 +14,36 @@ let allCountries = [];
  */
 async function fetchCountries() {
   // TODO
+  try {
+    const response = await fetch(API_URL);
+
+    if (!response.ok) {
+      throw new Error("Erreur lors de la récupération des pays");
+    }
+
+    const data = await response.json();
+
+    allCountries = data;
+
+    console.log(allCountries);
+
+    return allCountries;
+    console.log(allCountries);
+
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
 }
+
+fetchCountries()
+
+
+
+
+
+
+
 
 /**
  * Crée la carte HTML d'un pays, sur le modèle de la maquette :
@@ -23,9 +52,59 @@ async function fetchCountries() {
  * @param {Object} country - Un pays tel que renvoyé par l'API.
  * @returns {HTMLElement} La carte, prête à être ajoutée à la grille.
  */
+const liste_article = document.getElementById("liste-article");
+
 function createCountryCard(country) {
   // TODO
+  liste_article.textContent = ""
+  allCountries.forEach(data => {
+
+
+    const article = document.createElement("article");
+
+
+    const image = document.createElement("img");
+    image.className = "rounded-[8px]";
+    image.src = data.svg
+    image.appendChild(article);
+
+    const Titre = document.createElement("h3");
+    Titre.className = " p-2 font-bold";
+    Titre.textContent = data.name;
+    Titre.appendChild(article);
+
+
+    const div1 = document.createElement("div");
+    div1.className = "flex justify-between p-2";
+    article.appendChild(div1);
+
+    const Capitale = document.createElement("p");
+    Capitale.className = "text-gray-600 text-[13px]";
+    div1.appendChild(Capitale);
+
+    const nameCapitale = document.createElement("p");
+    nameCapitale.className = "text-gray-600 text-[13px]";
+    nameCapitale.textContent = data.capital;
+    div1.appendChild(nameCapitale);
+
+
+    const div2 = document.createElement("div");
+    div2.className = "flex justify-between p-2";
+    article.appendChild(div2);
+
+    const population = document.createElement("p");
+    population.className = "text-gray-600 text-[13px]";
+    div2.appendChild(population);
+
+    const number_Population = document.createElement("p");
+    number_Population.className = "text-gray-600 text-[13px]";
+    number_Population.textContent = data.population;
+    div2.appendChild(number_Population);
+
+    liste_article.appendChild(article);
+  })
 }
+
 
 /**
  * Affiche une liste de pays dans la grille.
